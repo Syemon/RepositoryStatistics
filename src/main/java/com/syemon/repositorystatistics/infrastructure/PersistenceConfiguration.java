@@ -6,10 +6,8 @@ import com.syemon.repositorystatistics.application.ContributorStatisticsMongoQue
 import com.syemon.repositorystatistics.application.ContributorStatisticsMongoQueryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @Configuration
-@EnableMongoAuditing
 public class PersistenceConfiguration {
 
     @Bean
