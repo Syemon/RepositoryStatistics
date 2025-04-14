@@ -2,6 +2,8 @@ package com.syemon.repositorystatistics.infrastructure;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import com.syemon.repositorystatistics.domain.ContributorStatistics;
+import com.syemon.repositorystatistics.domain.ContributorStatisticsCommand;
 import com.syemon.repositorystatistics.domain.ProjectStatistics;
 import com.syemon.repositorystatistics.domain.ProjectStatisticsCommand;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -168,6 +171,58 @@ class GithubClientTest {
               "subscribers_count": 71
             }
             """;
+
+
+    public static final String REPOS_CONTRIBUTORS_HTTP_200_RESPONSE = """
+              [
+              {
+                "login": "scordio",
+                "id": 26772046,
+                "node_id": "MDQ6VXNlcjI2NzcyMDQ2",
+                "avatar_url": "https://avatars.githubusercontent.com/u/26772046?v=4",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/scordio",
+                "html_url": "https://github.com/scordio",
+                "followers_url": "https://api.github.com/users/scordio/followers",
+                "following_url": "https://api.github.com/users/scordio/following{/other_user}",
+                "gists_url": "https://api.github.com/users/scordio/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/scordio/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/scordio/subscriptions",
+                "organizations_url": "https://api.github.com/users/scordio/orgs",
+                "repos_url": "https://api.github.com/users/scordio/repos",
+                "events_url": "https://api.github.com/users/scordio/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/scordio/received_events",
+                "type": "User",
+                "user_view_type": "public",
+                "site_admin": false,
+                "contributions": 639
+              },
+              {
+                "login": "PascalSchumacher",
+                "id": 2707245,
+                "node_id": "MDQ6VXNlcjI3MDcyNDU=",
+                "avatar_url": "https://avatars.githubusercontent.com/u/2707245?v=4",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/PascalSchumacher",
+                "html_url": "https://github.com/PascalSchumacher",
+                "followers_url": "https://api.github.com/users/PascalSchumacher/followers",
+                "following_url": "https://api.github.com/users/PascalSchumacher/following{/other_user}",
+                "gists_url": "https://api.github.com/users/PascalSchumacher/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/PascalSchumacher/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/PascalSchumacher/subscriptions",
+                "organizations_url": "https://api.github.com/users/PascalSchumacher/orgs",
+                "repos_url": "https://api.github.com/users/PascalSchumacher/repos",
+                "events_url": "https://api.github.com/users/PascalSchumacher/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/PascalSchumacher/received_events",
+                "type": "User",
+                "user_view_type": "public",
+                "site_admin": false,
+                "contributions": 464
+              }
+              ]
+    """;
+
+
     public static final String OWNER_NAME = "assertj";
     public static final String REPOSITORY_NAME = "assertj";
 
@@ -212,6 +267,39 @@ class GithubClientTest {
                     assertThat(actual.getForks()).isEqualTo(723L);
                     assertThat(actual.getOpenIssues()).isEqualTo(268);
                     assertThat(actual.getSubscribers()).isEqualTo(71L);
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    void getContributorDetails() {
+        //given
+        ContributorStatisticsCommand command = new ContributorStatisticsCommand(
+                OWNER_NAME, REPOSITORY_NAME
+        );
+
+        wireMockServer.stubFor(WireMock.get(urlEqualTo("/repos/assertj/assertj/contributors"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(REPOS_CONTRIBUTORS_HTTP_200_RESPONSE)));
+
+        //when
+        Flux<ContributorStatistics> response = sut.getContributorStatistics(command);
+
+        //then
+        StepVerifier
+                .create(response)
+                .consumeNextWith(actual -> {
+                    assertThat(actual.getId()).isNotNull();
+                    assertThat(actual.getName()).isEqualTo("scordio");
+                    assertThat(actual.getQueryTime()).isCloseTo(Instant.now(), within(5, ChronoUnit.SECONDS));
+                    assertThat(actual.getContributions()).isEqualTo(639);
+                })
+                .consumeNextWith(actual -> {
+                    assertThat(actual.getId()).isNotNull();
+                    assertThat(actual.getName()).isEqualTo("PascalSchumacher");
+                    assertThat(actual.getQueryTime()).isCloseTo(Instant.now(), within(5, ChronoUnit.SECONDS));
+                    assertThat(actual.getContributions()).isEqualTo(464);
                 })
                 .verifyComplete();
     }

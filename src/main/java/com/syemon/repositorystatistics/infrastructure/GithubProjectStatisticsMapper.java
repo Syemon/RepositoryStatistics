@@ -24,7 +24,7 @@ public interface GithubProjectStatisticsMapper {
     @Mapping(source = "openIssues", target = "openIssues")
     @Mapping(source = "subscribersCount", target = "subscribers")
     @Mapping(target = "contributors", expression = "java(emptyList())")
-    ProjectStatistics toProjectStatistics(GithubRepositoryModel repositoryModel);
+    ProjectStatistics toProjectStatistics(GithubRepositoryModel model);
 
     @Named("generateObjectId")
     default ObjectId generateObjectId() {
