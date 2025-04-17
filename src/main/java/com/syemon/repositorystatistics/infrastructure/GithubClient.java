@@ -10,8 +10,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @AllArgsConstructor
 public class GithubClient {
 
@@ -20,7 +18,7 @@ public class GithubClient {
 
     private final WebClient webClient;
     private final GithubProjectStatisticsMapper githubProjectStatisticsMapper;
-    private final GithubContributorStatisticsMapper githubContributorStatisticsMapper;
+    private final ContributorStatisticsMapper contributorStatisticsMapper;
 
     public Mono<ProjectStatistics> getProjectStatistics(ProjectStatisticsCommand request) {
         return webClient.get()
@@ -37,6 +35,6 @@ public class GithubClient {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToFlux(GithubContributorModel.class)
-                .map(githubContributorStatisticsMapper::toContributorStatistics);
+                .map(contributorStatisticsMapper::toContributorStatistics);
     }
 }

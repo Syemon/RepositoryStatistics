@@ -1,7 +1,8 @@
 package com.syemon.repositorystatistics.application;
 
 import com.syemon.repositorystatistics.AbstractBaseMongoDbIntegrationTest;
-import com.syemon.repositorystatistics.infrastructure.ContributorStatisticsDocument;
+import com.syemon.repositorystatistics.domain.ContributorStatistics;
+import com.syemon.repositorystatistics.infrastructure.in.ContributorStatisticsMongoCommandHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,13 +26,13 @@ class ContributorStatisticsDocumentCommandHandlerTest extends AbstractBaseMongoD
     @Test
     void save() {
         //given
-        ContributorStatisticsDocument contributorStatistics = new ContributorStatisticsDocument();
+        ContributorStatistics contributorStatistics = new ContributorStatistics();
         contributorStatistics.setName(CONTRIBUTOR_NAME);
         contributorStatistics.setQueryTime(QUERY_TIME);
         contributorStatistics.setContributions(CONTRIBUTIONS);
 
         //when
-        Mono<ContributorStatisticsDocument> savedEntity = sut.save(contributorStatistics);
+        Mono<ContributorStatistics> savedEntity = sut.save(contributorStatistics);
 
         //then
         StepVerifier

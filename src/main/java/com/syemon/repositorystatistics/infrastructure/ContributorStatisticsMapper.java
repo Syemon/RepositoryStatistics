@@ -9,13 +9,16 @@ import org.mapstruct.Named;
 import java.time.Instant;
 
 @Mapper(componentModel = "spring")
-public interface GithubContributorStatisticsMapper {
+public interface ContributorStatisticsMapper {
 
     @Mapping(target = "id", expression = "java(generateObjectId())")
     @Mapping(target = "queryTime", expression = "java(instantNow())")
     @Mapping(source = "login", target = "name")
     @Mapping(source = "contributions", target = "contributions")
     ContributorStatistics toContributorStatistics(GithubContributorModel githubContributorModel);
+
+    ContributorStatisticsDocument toContributorStatisticsDocument(ContributorStatistics contributorStatistics);
+    ContributorStatistics toContributorStatistics(ContributorStatisticsDocument contributorStatisticsDocument);
 
     @Named("generateObjectId")
     default ObjectId generateObjectId() {
