@@ -11,7 +11,7 @@ public class GithubClientConfiguration {
     @Bean
     public GithubClient githubClient(
             @Value("${github.base-url}") String baseUrl,
-            GithubProjectStatisticsMapper githubProjectStatisticsMapper,
+            ProjectStatisticsMapper projectStatisticsMapper,
             ContributorStatisticsMapper contributorStatisticsMapper
     ) {
         WebClient webClient = WebClient.builder()
@@ -20,7 +20,7 @@ public class GithubClientConfiguration {
 
         return new GithubClient(
                 webClient,
-                githubProjectStatisticsMapper,
+                projectStatisticsMapper,
                 contributorStatisticsMapper
         );
     }

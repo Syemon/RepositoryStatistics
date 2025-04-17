@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface GithubProjectStatisticsMapper {
+public interface ProjectStatisticsMapper {
 
     @Mapping(target = "id", expression = "java(generateObjectId())")
     @Mapping(target = "queryTime", expression = "java(instantNow())")
@@ -25,6 +25,10 @@ public interface GithubProjectStatisticsMapper {
     @Mapping(source = "subscribersCount", target = "subscribers")
     @Mapping(target = "contributors", expression = "java(emptyList())")
     ProjectStatistics toProjectStatistics(GithubRepositoryModel model);
+
+    ProjectStatisticsDocument toProjectStatisticsDocument(ProjectStatistics contributorStatistics);
+    ProjectStatistics toProjectStatistics(ProjectStatisticsDocument contributorStatisticsDocument);
+
 
     @Named("generateObjectId")
     default ObjectId generateObjectId() {

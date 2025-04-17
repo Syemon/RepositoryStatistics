@@ -17,7 +17,7 @@ public class GithubClient {
     private static final String GET_REPOSITORY_CONTRIBUTORS_ENDPOINT = "/repos/{owner}/{repo}/contributors";
 
     private final WebClient webClient;
-    private final GithubProjectStatisticsMapper githubProjectStatisticsMapper;
+    private final ProjectStatisticsMapper projectStatisticsMapper;
     private final ContributorStatisticsMapper contributorStatisticsMapper;
 
     public Mono<ProjectStatistics> getProjectStatistics(ProjectStatisticsCommand request) {
@@ -26,7 +26,7 @@ public class GithubClient {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(GithubRepositoryModel.class)
-                .map(githubProjectStatisticsMapper::toProjectStatistics);
+                .map(projectStatisticsMapper::toProjectStatistics);
     }
 
     public Flux<ContributorStatistics> getContributorStatistics(ContributorStatisticsCommand request) {

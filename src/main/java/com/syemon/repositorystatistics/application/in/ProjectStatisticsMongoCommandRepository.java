@@ -1,6 +1,5 @@
-package com.syemon.repositorystatistics.application;
+package com.syemon.repositorystatistics.application.in;
 
-import com.syemon.repositorystatistics.infrastructure.ContributorStatisticsDocument;
 import com.syemon.repositorystatistics.infrastructure.ProjectStatisticsDocument;
 import org.bson.types.ObjectId;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
