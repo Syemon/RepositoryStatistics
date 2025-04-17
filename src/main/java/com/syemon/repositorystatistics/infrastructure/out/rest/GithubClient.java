@@ -1,9 +1,11 @@
-package com.syemon.repositorystatistics.infrastructure;
+package com.syemon.repositorystatistics.infrastructure.out.rest;
 
 import com.syemon.repositorystatistics.domain.ContributorStatistics;
 import com.syemon.repositorystatistics.domain.ContributorStatisticsCommand;
 import com.syemon.repositorystatistics.domain.ProjectStatistics;
 import com.syemon.repositorystatistics.domain.ProjectStatisticsCommand;
+import com.syemon.repositorystatistics.infrastructure.ContributorStatisticsMapper;
+import com.syemon.repositorystatistics.infrastructure.ProjectStatisticsMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;

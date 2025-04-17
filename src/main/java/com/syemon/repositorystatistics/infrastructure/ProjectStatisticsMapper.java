@@ -2,6 +2,8 @@ package com.syemon.repositorystatistics.infrastructure;
 
 import com.syemon.repositorystatistics.domain.ContributorStatistics;
 import com.syemon.repositorystatistics.domain.ProjectStatistics;
+import com.syemon.repositorystatistics.infrastructure.out.persistence.ProjectStatisticsDocument;
+import com.syemon.repositorystatistics.infrastructure.out.rest.GithubRepositoryModel;
 import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

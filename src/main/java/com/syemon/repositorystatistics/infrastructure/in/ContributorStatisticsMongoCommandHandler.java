@@ -1,10 +1,10 @@
 package com.syemon.repositorystatistics.infrastructure.in;
 
-import com.syemon.repositorystatistics.application.in.ContributorStatisticsMongoCommandRepository;
 import com.syemon.repositorystatistics.domain.ContributorStatistics;
 import com.syemon.repositorystatistics.domain.in.ContributorStatisticsCommandHandler;
-import com.syemon.repositorystatistics.infrastructure.ContributorStatisticsDocument;
+import com.syemon.repositorystatistics.infrastructure.out.persistence.ContributorStatisticsDocument;
 import com.syemon.repositorystatistics.infrastructure.ContributorStatisticsMapper;
+import com.syemon.repositorystatistics.infrastructure.out.persistence.ContributorStatisticsMongoCommandRepository;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 

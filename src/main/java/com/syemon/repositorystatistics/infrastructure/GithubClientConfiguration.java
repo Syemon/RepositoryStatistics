@@ -1,5 +1,6 @@
 package com.syemon.repositorystatistics.infrastructure;
 
+import com.syemon.repositorystatistics.infrastructure.out.rest.GithubClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

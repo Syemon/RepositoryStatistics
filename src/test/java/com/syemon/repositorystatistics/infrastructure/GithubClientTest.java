@@ -6,6 +6,7 @@ import com.syemon.repositorystatistics.domain.ContributorStatistics;
 import com.syemon.repositorystatistics.domain.ContributorStatisticsCommand;
 import com.syemon.repositorystatistics.domain.ProjectStatistics;
 import com.syemon.repositorystatistics.domain.ProjectStatisticsCommand;
+import com.syemon.repositorystatistics.infrastructure.out.rest.GithubClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;

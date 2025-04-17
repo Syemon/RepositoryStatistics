@@ -1,4 +1,4 @@
-package com.syemon.repositorystatistics.infrastructure;
+package com.syemon.repositorystatistics.infrastructure.out.persistence;
 
 import lombok.Data;
 import org.bson.types.ObjectId;

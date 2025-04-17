@@ -1,4 +1,4 @@
-package com.syemon.repositorystatistics.infrastructure;
+package com.syemon.repositorystatistics.infrastructure.out.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

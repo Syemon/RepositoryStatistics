@@ -1,9 +1,9 @@
 package com.syemon.repositorystatistics.infrastructure;
 
 import com.syemon.repositorystatistics.infrastructure.in.ContributorStatisticsMongoCommandHandler;
-import com.syemon.repositorystatistics.application.in.ContributorStatisticsMongoCommandRepository;
-import com.syemon.repositorystatistics.infrastructure.out.ContributorStatisticsMongoQueryHandler;
-import com.syemon.repositorystatistics.application.out.ContributorStatisticsMongoQueryRepository;
+import com.syemon.repositorystatistics.infrastructure.out.persistence.ContributorStatisticsMongoCommandRepository;
+import com.syemon.repositorystatistics.infrastructure.out.persistence.ContributorStatisticsMongoQueryHandler;
+import com.syemon.repositorystatistics.infrastructure.out.persistence.ContributorStatisticsMongoQueryRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

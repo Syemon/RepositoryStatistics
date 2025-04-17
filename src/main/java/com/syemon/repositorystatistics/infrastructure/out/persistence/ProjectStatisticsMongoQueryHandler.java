@@ -1,6 +1,5 @@
-package com.syemon.repositorystatistics.infrastructure.out;
+package com.syemon.repositorystatistics.infrastructure.out.persistence;
 
-import com.syemon.repositorystatistics.application.out.ProjectStatisticsMongoQueryRepository;
 import com.syemon.repositorystatistics.domain.ProjectStatistics;
 import com.syemon.repositorystatistics.domain.out.ProjectStatisticsQueryHandler;
 import com.syemon.repositorystatistics.infrastructure.ProjectStatisticsMapper;
