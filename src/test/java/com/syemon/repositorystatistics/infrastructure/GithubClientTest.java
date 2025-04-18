@@ -2,11 +2,11 @@ package com.syemon.repositorystatistics.infrastructure;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
-import com.syemon.repositorystatistics.domain.ContributorStatistics;
 import com.syemon.repositorystatistics.domain.ContributorStatisticsCommand;
-import com.syemon.repositorystatistics.domain.ProjectStatistics;
 import com.syemon.repositorystatistics.domain.ProjectStatisticsCommand;
 import com.syemon.repositorystatistics.infrastructure.out.rest.GithubClient;
+import com.syemon.repositorystatistics.infrastructure.out.rest.GithubContributorModel;
+import com.syemon.repositorystatistics.infrastructure.out.rest.GithubRepositoryModel;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GithubClientTest {
@@ -253,7 +249,7 @@ class GithubClientTest {
                         .withBody(REPOS_HTTP_200_RESPONSE)));
 
         //when
-        Mono<ProjectStatistics> response = sut.getProjectStatistics(command);
+        Mono<GithubRepositoryModel> response = sut.getProjectStatistics(command);
 
         //then
         StepVerifier
@@ -262,12 +258,11 @@ class GithubClientTest {
                     assertThat(actual.getId()).isNotNull();
                     assertThat(actual.getName()).isEqualTo("assertj");
                     assertThat(actual.getDescription()).isEqualTo("AssertJ is a library providing easy to use rich typed assertions ");
-                    assertThat(actual.getQueryTime()).isCloseTo(Instant.now(), within(5, ChronoUnit.SECONDS));
                     assertThat(actual.getSize()).isEqualTo(50748L);
-                    assertThat(actual.getWatchers()).isEqualTo(2678L);
-                    assertThat(actual.getForks()).isEqualTo(723L);
+                    assertThat(actual.getWatchers()).isEqualTo(2678);
+                    assertThat(actual.getForks()).isEqualTo(723);
                     assertThat(actual.getOpenIssues()).isEqualTo(268);
-                    assertThat(actual.getSubscribers()).isEqualTo(71L);
+                    assertThat(actual.getSubscribersCount()).isEqualTo(71L);
                 })
                 .verifyComplete();
     }
@@ -285,21 +280,19 @@ class GithubClientTest {
                         .withBody(REPOS_CONTRIBUTORS_HTTP_200_RESPONSE)));
 
         //when
-        Flux<ContributorStatistics> response = sut.getContributorStatistics(command);
+        Flux<GithubContributorModel> response = sut.getContributorStatistics(command);
 
         //then
         StepVerifier
                 .create(response)
                 .consumeNextWith(actual -> {
                     assertThat(actual.getId()).isNotNull();
-                    assertThat(actual.getName()).isEqualTo("scordio");
-                    assertThat(actual.getQueryTime()).isCloseTo(Instant.now(), within(5, ChronoUnit.SECONDS));
+                    assertThat(actual.getLogin()).isEqualTo("scordio");
                     assertThat(actual.getContributions()).isEqualTo(639);
                 })
                 .consumeNextWith(actual -> {
                     assertThat(actual.getId()).isNotNull();
-                    assertThat(actual.getName()).isEqualTo("PascalSchumacher");
-                    assertThat(actual.getQueryTime()).isCloseTo(Instant.now(), within(5, ChronoUnit.SECONDS));
+                    assertThat(actual.getLogin()).isEqualTo("PascalSchumacher");
                     assertThat(actual.getContributions()).isEqualTo(464);
                 })
                 .verifyComplete();

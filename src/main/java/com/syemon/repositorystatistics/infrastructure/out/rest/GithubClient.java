@@ -1,11 +1,7 @@
 package com.syemon.repositorystatistics.infrastructure.out.rest;
 
-import com.syemon.repositorystatistics.domain.ContributorStatistics;
 import com.syemon.repositorystatistics.domain.ContributorStatisticsCommand;
-import com.syemon.repositorystatistics.domain.ProjectStatistics;
 import com.syemon.repositorystatistics.domain.ProjectStatisticsCommand;
-import com.syemon.repositorystatistics.infrastructure.ContributorStatisticsMapper;
-import com.syemon.repositorystatistics.infrastructure.ProjectStatisticsMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,24 +15,20 @@ public class GithubClient {
     private static final String GET_REPOSITORY_CONTRIBUTORS_ENDPOINT = "/repos/{owner}/{repo}/contributors";
 
     private final WebClient webClient;
-    private final ProjectStatisticsMapper projectStatisticsMapper;
-    private final ContributorStatisticsMapper contributorStatisticsMapper;
 
-    public Mono<ProjectStatistics> getProjectStatistics(ProjectStatisticsCommand request) {
+    public Mono<GithubRepositoryModel> getProjectStatistics(ProjectStatisticsCommand request) {
         return webClient.get()
                 .uri(GET_REPOSITORY_ENDPOINT, request.ownerName(), request.repositoryName())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(GithubRepositoryModel.class)
-                .map(projectStatisticsMapper::toProjectStatistics);
+                .bodyToMono(GithubRepositoryModel.class);
     }
 
-    public Flux<ContributorStatistics> getContributorStatistics(ContributorStatisticsCommand request) {
+    public Flux<GithubContributorModel> getContributorStatistics(ContributorStatisticsCommand request) {
         return webClient.get()
                 .uri(GET_REPOSITORY_CONTRIBUTORS_ENDPOINT, request.ownerName(), request.repositoryName())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToFlux(GithubContributorModel.class)
-                .map(contributorStatisticsMapper::toContributorStatistics);
+                .bodyToFlux(GithubContributorModel.class);
     }
 }
