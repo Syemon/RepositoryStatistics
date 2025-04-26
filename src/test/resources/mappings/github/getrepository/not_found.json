@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/repos/notfound/notfound"
+  },
+  "response": {
+    "status": "404",
+    "headers": {
+      "Content-Type" : "application/json;charset=UTF-8"
+    },
+    "jsonBody":  {
+      "message": "Not Found",
+      "documentation_url": "https://docs.github.com/rest/repos/repos#get-a-repository",
+      "status": "404"
+    }
+  }
+}

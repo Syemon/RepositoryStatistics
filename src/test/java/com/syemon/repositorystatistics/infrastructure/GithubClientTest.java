@@ -24,6 +24,8 @@ class GithubClientTest {
 
     public static final String OWNER_NAME = "assertj";
     public static final String REPOSITORY_NAME = "assertj";
+    public static final String NOT_FOUND_REPOSITORY_NAME = "not_found";
+    public static final String NOT_FOUND_OWNER_NAME = "not_found";
 
     @Autowired
     private GithubClient sut;
@@ -65,6 +67,23 @@ class GithubClientTest {
     }
 
     @Test
+    void getProjectDetails_shouldReturnEmpty_whenClientReturns404() {
+        //given
+        ProjectStatisticsCommand command = new ProjectStatisticsCommand(
+                NOT_FOUND_OWNER_NAME, NOT_FOUND_REPOSITORY_NAME
+        );
+
+        //when
+        Mono<GithubRepositoryModel> response = sut.getProjectStatistics(command);
+
+        //then
+        StepVerifier
+                .create(response)
+                .expectNextCount(0)
+                .verifyComplete();
+    }
+
+    @Test
     void getContributorDetails() {
         //given
         ContributorStatisticsCommand command = new ContributorStatisticsCommand(
@@ -87,6 +106,23 @@ class GithubClientTest {
                     assertThat(actual.getLogin()).isEqualTo("PascalSchumacher");
                     assertThat(actual.getContributions()).isEqualTo(464);
                 })
+                .verifyComplete();
+    }
+
+    @Test
+    void getContributorDetails_shouldReturnEmpty_whenClientReturns404() {
+        //given
+        ContributorStatisticsCommand command = new ContributorStatisticsCommand(
+                NOT_FOUND_OWNER_NAME, NOT_FOUND_REPOSITORY_NAME
+        );
+
+        //when
+        Flux<GithubContributorModel> response = sut.getContributorStatistics(command);
+
+        //then
+        StepVerifier
+                .create(response)
+                .expectNextCount(0)
                 .verifyComplete();
     }
 }

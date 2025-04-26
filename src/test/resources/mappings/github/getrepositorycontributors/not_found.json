@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/repos/notfound/notfound/contributors"
+  },
+  "response": {
+    "status": "404",
+    "headers": {
+      "Content-Type" : "application/json;charset=UTF-8"
+    },
+    "jsonBody": {
+      "message": "Not Found",
+      "documentation_url": "https://docs.github.com/rest/repos/repos#list-repository-contributors",
+      "status": "404"
+    }
+  }
+}
