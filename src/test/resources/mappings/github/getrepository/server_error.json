@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/repos/server_error/server_error"
+  },
+  "response": {
+    "status": "500",
+    "headers": {
+      "Content-Type" : "application/json;charset=UTF-8"
+    },
+    "jsonBody":  {
+      "message": "Server Error",
+      "documentation_url": "https://docs.github.com/rest"
+    }
+  }
+}

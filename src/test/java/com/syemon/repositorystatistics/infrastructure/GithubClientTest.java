@@ -26,6 +26,8 @@ class GithubClientTest {
     public static final String REPOSITORY_NAME = "assertj";
     public static final String NOT_FOUND_REPOSITORY_NAME = "not_found";
     public static final String NOT_FOUND_OWNER_NAME = "not_found";
+    public static final String SERVER_ERROR_OWNER_NAME = "server_error";
+    public static final String SERVER_ERROR_REPOSITORY_NAME = "server_error";
 
     @Autowired
     private GithubClient sut;
@@ -84,6 +86,23 @@ class GithubClientTest {
     }
 
     @Test
+    void getProjectDetails_shouldReturnError_whenClientReturnsUnexpectedStatus() {
+        //given
+        ProjectStatisticsCommand command = new ProjectStatisticsCommand(
+                SERVER_ERROR_OWNER_NAME, SERVER_ERROR_REPOSITORY_NAME
+        );
+
+        //when
+        Mono<GithubRepositoryModel> response = sut.getProjectStatistics(command);
+
+        //then
+        StepVerifier
+                .create(response)
+                .expectError()
+                .verify();
+    }
+
+    @Test
     void getContributorDetails() {
         //given
         ContributorStatisticsCommand command = new ContributorStatisticsCommand(
@@ -124,5 +143,22 @@ class GithubClientTest {
                 .create(response)
                 .expectNextCount(0)
                 .verifyComplete();
+    }
+
+    @Test
+    void getContributorDetails_shouldReturnError_whenClientReturnsUnexpectedStatus() {
+        //given
+        ContributorStatisticsCommand command = new ContributorStatisticsCommand(
+                SERVER_ERROR_OWNER_NAME, SERVER_ERROR_REPOSITORY_NAME
+        );
+
+        //when
+        Flux<GithubContributorModel> response = sut.getContributorStatistics(command);
+
+        //then
+        StepVerifier
+                .create(response)
+                .expectError()
+                .verify();
     }
 }
