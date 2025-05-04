@@ -18,20 +18,20 @@ public class ContributorStatisticsService {
     public Mono<ProjectStatistics> saveProjectStatistics(ProjectStatisticsCommand projectStatisticsCommand) {
         return projectStatisticsPort.getProjectStatistics(projectStatisticsCommand)
                 .switchIfEmpty(Mono.error(new ProjectNotFoundException("Project not found: " + projectStatisticsCommand.repositoryName())))
-                .flatMap(projectStatistics -> {
-                    ContributorStatisticsCommand contributorCommand =
-                            new ContributorStatisticsCommand(projectStatisticsCommand.ownerName(),
-                                    projectStatisticsCommand.repositoryName());
-
-                    return contributorStatisticsPort.getContributorStatistics(contributorCommand)
-                            .collectList()
-                            .map(contributorStatistics -> {
-                                projectStatistics.setContributors(contributorStatistics);
-                                return projectStatistics;
-                            })
-                            .flatMap(projectStatisticsCommandHandler::save)
-                            .doOnSuccess(saved -> log.info("Saved project statistics for: {}", projectStatisticsCommand.repositoryName()))
-                            .doOnError(e -> log.error("Failed to save project statistics", e));
-                });
+                .flatMap(projectStatistics -> fetchAndSetContributors(projectStatistics)
+                        .flatMap(projectStatisticsCommandHandler::save)
+                        .doOnSuccess(saved -> log.info("Saved project statistics for: {}", projectStatisticsCommand.repositoryName()))
+                        .doOnError(e -> log.error("Failed to save project statistics", e))
+                );
     }
-}
+
+    private Mono<ProjectStatistics> fetchAndSetContributors(ProjectStatistics projectStatistics) {
+        ContributorStatisticsCommand contributorCommand = new ContributorStatisticsCommand(
+                projectStatistics.getOwnerName(), projectStatistics.getName());
+        return contributorStatisticsPort.getContributorStatistics(contributorCommand)
+                .collectList()
+                .map(contributors -> {
+                    projectStatistics.setContributors(contributors);
+                    return projectStatistics;
+                });
+    }}

@@ -19,6 +19,7 @@ public interface ProjectStatisticsMapper {
     @Mapping(target = "id", expression = "java(generateObjectId())")
     @Mapping(target = "queryTime", expression = "java(instantNow())")
     @Mapping(source = "name", target = "name")
+    @Mapping(source = "owner.login", target = "ownerName")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "size", target = "size")
     @Mapping(source = "watchers", target = "watchers")

@@ -15,6 +15,7 @@ public class ProjectStatisticsDocument {
 
     private String name;
     private String description;
+    private String ownerName;
     private Instant queryTime;
     private Long size;
     private Long watchers;

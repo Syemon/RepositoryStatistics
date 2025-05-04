@@ -3,6 +3,7 @@ package com.syemon.repositorystatistics.domain;
 import com.syemon.repositorystatistics.domain.in.ProjectStatisticsCommandHandler;
 import com.syemon.repositorystatistics.domain.out.ContributorStatisticsPort;
 import com.syemon.repositorystatistics.domain.out.ProjectStatisticsPort;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -32,6 +33,15 @@ class ContributorStatisticsServiceTest {
     @Mock
     private ProjectStatisticsCommandHandler projectStatisticsCommandHandler;
 
+    private ProjectStatistics projectStatistics;
+
+    @BeforeEach
+    public void setUp() {
+        projectStatistics = new ProjectStatistics();
+        projectStatistics.setName(REPOSITORY_NAME);
+        projectStatistics.setOwnerName(OWNER_NAME);
+    }
+
     @Test
     void saveProjectStatistics_shouldReturnError_whenReceivedEmptyProject() {
         //given
@@ -57,9 +67,6 @@ class ContributorStatisticsServiceTest {
     @Test
     void saveProjectStatistics_shouldReturnError_whenReceivedError() {
         //given
-        ProjectStatistics projectStatistics = new ProjectStatistics();
-        projectStatistics.setName(REPOSITORY_NAME);
-
         ProjectStatisticsCommand projectStatisticsCommand = new ProjectStatisticsCommand(
                 OWNER_NAME,
                 REPOSITORY_NAME
@@ -90,9 +97,6 @@ class ContributorStatisticsServiceTest {
     @Test
     void saveProjectStatistics() {
         //given
-        ProjectStatistics projectStatistics = new ProjectStatistics();
-        projectStatistics.setName(REPOSITORY_NAME);
-
         ProjectStatisticsCommand projectStatisticsCommand = new ProjectStatisticsCommand(
                 OWNER_NAME,
                 REPOSITORY_NAME

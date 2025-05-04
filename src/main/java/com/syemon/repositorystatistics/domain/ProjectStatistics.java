@@ -13,6 +13,7 @@ public class ProjectStatistics {
     private ObjectId id;
 
     private String name;
+    private String ownerName;
     private String description;
     private Instant queryTime;
     private Long size;
