@@ -3,11 +3,13 @@ package com.syemon.repositorystatistics.infrastructure.out.persistence;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 import java.util.List;
 
 @Data
+@Document
 public class ProjectStatisticsDocument {
 
     @Id

@@ -1,5 +1,6 @@
 package com.syemon.repositorystatistics.infrastructure.out.rest.adapter;
 
+import com.syemon.repositorystatistics.AbstractBaseMongoDbIntegrationTest;
 import com.syemon.repositorystatistics.domain.ContributorStatistics;
 import com.syemon.repositorystatistics.domain.ContributorStatisticsCommand;
 import com.syemon.repositorystatistics.domain.ProjectStatistics;
@@ -28,7 +29,7 @@ import static org.assertj.core.api.BDDAssertions.within;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class GithubAdapterTest {
+class GithubAdapterTest extends AbstractBaseMongoDbIntegrationTest {
 
     public static final String OWNER_NAME = "OwnerName";
     public static final String REPOSITORY_NAME = "RepositoryName";

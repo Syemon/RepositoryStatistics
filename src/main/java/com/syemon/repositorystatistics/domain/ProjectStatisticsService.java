@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @AllArgsConstructor
-public class ContributorStatisticsService {
+public class ProjectStatisticsService {
 
     private final ProjectStatisticsPort projectStatisticsPort;
     private final ContributorStatisticsPort contributorStatisticsPort;

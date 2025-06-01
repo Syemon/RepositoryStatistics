@@ -1,6 +1,7 @@
 package com.syemon.repositorystatistics.infrastructure;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
+import com.syemon.repositorystatistics.AbstractBaseMongoDbIntegrationTest;
 import com.syemon.repositorystatistics.domain.ContributorStatisticsCommand;
 import com.syemon.repositorystatistics.domain.ProjectStatisticsCommand;
 import com.syemon.repositorystatistics.infrastructure.out.rest.GithubClient;
@@ -20,7 +21,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class GithubClientTest {
+class GithubClientTest extends AbstractBaseMongoDbIntegrationTest {
 
     public static final String OWNER_NAME = "assertj";
     public static final String REPOSITORY_NAME = "assertj";

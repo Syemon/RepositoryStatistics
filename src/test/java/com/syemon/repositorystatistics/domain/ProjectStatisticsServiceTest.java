@@ -18,13 +18,13 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ContributorStatisticsServiceTest {
+class ProjectStatisticsServiceTest {
 
     public static final String OWNER_NAME = "assertj";
     public static final String REPOSITORY_NAME = "assertj";
 
     @InjectMocks
-    private ContributorStatisticsService sut;
+    private ProjectStatisticsService sut;
 
     @Mock
     private ProjectStatisticsPort projectStatisticsPort;
